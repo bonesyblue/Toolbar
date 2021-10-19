@@ -12,11 +12,24 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow!
+    
+    let counter = CounterState()
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
+        let contentView = ContentView().environmentObject(counter.state)
+        // Create and configure the Toolbar instance
+        let toolbarButton = NSHostingView(
+            rootView: ToolbarIncrementButton(
+                action: { self.counter.state.count += 1 }
+            )
+        )
+        let toolbar = CustomToolbar(
+            identifier: "CustomToolbar",
+            incrementButton: toolbarButton
+        )
+        toolbar.displayMode = .iconOnly
 
         // Create the window and set the content view.
         window = NSWindow(
@@ -27,6 +40,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.center()
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
+        
+        window.toolbar = toolbar
         window.makeKeyAndOrderFront(nil)
     }
 

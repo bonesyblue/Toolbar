@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    var counter = CounterState()
-    
-    
     var body: some View {
         CounterView()
-            .environmentObject(counter.state)
     }
 }
 
