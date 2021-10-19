@@ -8,9 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    var counter = CounterState()
+    
+    
     var body: some View {
-        Text("Hello, World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        CounterView()
+            .environmentObject(counter.state)
+    }
+}
+
+struct CounterView: View {
+    @EnvironmentObject var counter: CounterSubState
+    
+    var body: some View {
+        VStack {
+            Text("You have pressed the button \(counter.count) times")
+            Button(
+                action: { counter.count += 1 },
+                label: {
+                    Text("Increment")
+                }
+            )
+        }.frame(width: 200, height: 200, alignment: .center)
     }
 }
 
